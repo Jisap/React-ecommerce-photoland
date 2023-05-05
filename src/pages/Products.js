@@ -19,7 +19,7 @@ const Products = () => {
     if(data){
       setTitle(data[0].attributes.categories.data[0].attributes.title);
     }
-  })
+  },[data])
 
   return (
     <div className='mb-16 pt-40 lg:pt-0'>
