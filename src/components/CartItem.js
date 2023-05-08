@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 import Qty from './Qty';
+import { CartContext } from '../context/CartContext';
 
 const CartItem = ({item}) => {
+
+  const { removeFromCart } = useContext(CartContext)
+
   return (
     <div className='flex gap-x-8'>
      
@@ -21,7 +25,10 @@ const CartItem = ({item}) => {
           <Link to={`product/${item.id}`}>
             {item.attributes.title}
           </Link>
-          <div className='cursor-pointer text-[24px] hover:text-accent transition-all'>
+          <div 
+            className='cursor-pointer text-[24px] hover:text-accent transition-all'
+            onClick={() => removeFromCart(item.id)}  
+          >
             <IoClose />
           </div>
         </div>
