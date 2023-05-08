@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 export const CartContext = createContext(); // Context
 
@@ -9,6 +9,14 @@ const CartProvider = ({ children }) => {
   const[itemsAmount, setItemsAmount] = useState(0);
   const[amount, setAmount] = useState(0);
   const[total, setTotal] = useState(0);
+
+  // cart amount
+  useEffect(() => {
+    const amount = cart.reduce((a,c) => {  // a:acumulator, c:currentValue
+      return a + c.amount;                 // reduce itera sobre cada elemento del array "cart"  
+    },0);                                  // y en cada iteracción suma la cantidad "amount" al acumulador 
+    setItemsAmount(amount)
+  },[cart]);
 
   // // Original add to cart
   // const addToCart = (item, id) => {
@@ -68,8 +76,66 @@ const CartProvider = ({ children }) => {
     setCart(newCart);
   };
 
+  const handleInput = (e, id) => {
 
-  return <CartContext.Provider value={{isOpen, setIsOpen, addToCart, removeFromCart, cart}}>
+    const value = parseInt(e.target.value);     // Valor del input convertido a int
+
+    const cartItem = cart.find(item => {        // Buscamos el item en el carrito
+      return item.id === id;
+    });
+    
+    if(cartItem){                               // Si existe el item
+      const newCart = cart.map( item => {       // creamos una copia del carrito iterando el original donde
+        if(item.id === id) {                    // si el item que queremos modificar,
+          if(isNaN(value)){                     // el valor del input no es un número
+            setAmount(1)                        // establecemos la cantidad en 1
+            return {...item, amount:1}          // y retornamos ese item con la cantidad en 1
+          }else {                               // pero si es valor es un número
+            setAmount(value)                    // establecemos la cantidad en dicho número
+            return { ...item, amount: value }   // y retornamos el item con la cantidad = value
+          }
+        }else {                                 // El resto de items que no se modifican se dejan como estaban
+          return item
+        }
+      });
+      setCart(newCart);                         // Al final establecemos el estado del carrito con la copia que contiene las modificaciones
+    }
+    setIsOpen(true)
+  };
+
+  // Refactorización de handleInput
+    
+  //   const handleInput = (e, id) => {
+  //     const value = parseInt(e.target.value);
+    
+  //     const updatedCart = cart.map(item => {
+  //       if(item.id === id) {
+  //         const newAmount = isNaN(value) ? 1 : value;
+  //         setAmount(newAmount);
+  //         return { ...item, amount: newAmount };
+  //       } else {
+  //         return item;
+  //       }
+  //     });
+
+  //   setCart(updatedCart);
+  //   setIsOpen(true);
+  // }
+
+  const handleSelect = (e, id) => {
+  
+  }
+
+  return <CartContext.Provider 
+    value={{
+      isOpen, 
+      setIsOpen, 
+      addToCart, 
+      removeFromCart, 
+      cart, 
+      itemsAmount,
+      handleInput,
+    }}>
       {children}
     </CartContext.Provider>;
 };
