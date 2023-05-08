@@ -15,7 +15,7 @@ const CartProvider = ({ children }) => {
     
     const itemID = parseInt(id);
     const newItem = { ...item[0], amount: 1 }; // item seleccionado para añadir al carrito
-    setCart([...cart, newItem]);               // estado para cart con los items seleccionados   
+    setCart([...cart, newItem]);               // estado para cart con el nuevo item   
     
     // check if item is already in the cart
     const cartItem = cart.find(item => {       // Buscamos en el estado del carrito si hay un item cuyo id = al pasado por parámetro 
@@ -23,10 +23,10 @@ const CartProvider = ({ children }) => {
     });
 
     if(cartItem){                                         // Si se está comprando otra vez,
-      const newCart = cart.map(item => {                  // mapeamos el carrito y seleccionaremos un item
+      const newCart = cart.map(item => {                  // mapeamos el carrito y seleccionaremos ese item repetido
         if(item.id === itemID){                           // cuyos ids (iterado y el del params) sean iguales 
-          setAmount( cartItem.amount + 1 );               // A ese item aumentaremos la cantidad en 1. 
-          return {...item, amount: cartItem.amount + 1};  // y se retornará un newCart que contendrá el item con la cantidad aumentada
+          setAmount( cartItem.amount + 1 );               // Estado de cantidad con item repetido +1 
+          return {...item, amount: cartItem.amount + 1};  // A ese item repetido le aumentaremos la cantidad en 1 con el estado de amount.
         }else{
           return item;
         }    
