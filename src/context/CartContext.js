@@ -123,7 +123,22 @@ const CartProvider = ({ children }) => {
   // }
 
   const handleSelect = (e, id) => {
-  
+    const value = e.target.value;
+    const cartItem = cart.find(item => {
+      return item.id === id;
+    });
+    
+    if(cartItem){
+      const newCart = [...cart].map( item => {
+        if(item.id === id) {
+          setAmount(value)
+          return { ...item, amount:value }
+        }else{
+          return item
+        }
+      });
+      setCart(newCart);  
+    }
   }
 
   return <CartContext.Provider 
@@ -135,6 +150,7 @@ const CartProvider = ({ children }) => {
       cart, 
       itemsAmount,
       handleInput,
+      handleSelect,
     }}>
       {children}
     </CartContext.Provider>;
