@@ -76,10 +76,9 @@ const CartProvider = ({ children }) => {
     setCart(newCart);
   };
 
+  //handleInput
   const handleInput = (e, id) => {
-
     const value = parseInt(e.target.value);     // Valor del input convertido a int
-
     const cartItem = cart.find(item => {        // Buscamos el item en el carrito
       return item.id === id;
     });
@@ -122,6 +121,7 @@ const CartProvider = ({ children }) => {
   //   setIsOpen(true);
   // }
 
+  // handleSelect
   const handleSelect = (e, id) => {
     const value = parseInt( e.target.value );
     const cartItem = cart.find(item => {
@@ -139,7 +139,15 @@ const CartProvider = ({ children }) => {
       });
       setCart(newCart);  
     }
-  }
+  };
+
+  // cart total
+  useEffect(() => {
+    const total = cart.reduce((a , c) => {
+      return a + (c.attributes.price * c.amount);
+    }, 0);
+    setTotal(total);
+  },[cart])
 
   return <CartContext.Provider 
     value={{
@@ -151,6 +159,7 @@ const CartProvider = ({ children }) => {
       itemsAmount,
       handleInput,
       handleSelect,
+      total,
     }}>
       {children}
     </CartContext.Provider>;
