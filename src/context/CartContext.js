@@ -123,7 +123,7 @@ const CartProvider = ({ children }) => {
   // }
 
   const handleSelect = (e, id) => {
-    const value = e.target.value;
+    const value = parseInt( e.target.value );
     const cartItem = cart.find(item => {
       return item.id === id;
     });
