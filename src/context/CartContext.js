@@ -147,7 +147,12 @@ const CartProvider = ({ children }) => {
       return a + (c.attributes.price * c.amount);
     }, 0);
     setTotal(total);
-  },[cart])
+  },[cart]);
+
+  // clear cart
+  const clearCart = () => {
+    setCart([]);
+  }
 
   return <CartContext.Provider 
     value={{
@@ -160,6 +165,7 @@ const CartProvider = ({ children }) => {
       handleInput,
       handleSelect,
       total,
+      clearCart,
     }}>
       {children}
     </CartContext.Provider>;

@@ -5,7 +5,7 @@ import CartItem from './CartItem';
 
 const Cart = () => {
 
-  const { setIsOpen, cart, total } = useContext(CartContext);
+  const { setIsOpen, cart, total, clearCart } = useContext(CartContext);
 
   return (
     <div className='w-full h-full px-4 text-white'>
@@ -45,7 +45,10 @@ const Cart = () => {
       <div className='px-6'>
         {cart.length >= 1 ? (
           <div className='flex justify-between gap-x-4'>
-            <button className='btn btn-accent hover:bg-accent-hover text-primary'>Clear cart</button>
+            <button 
+              className='btn btn-accent hover:bg-accent-hover text-primary'
+              onClick={clearCart}  
+            >Clear cart</button>
             <button className='btn btn-accent hover:bg-accent-hover text-primary flex-1 px-2 gap-x-2'>
               Checkout
               <IoArrowForward className='text-lg' />
